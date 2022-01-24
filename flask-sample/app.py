@@ -1,4 +1,3 @@
-
 from flask import Flask, request, Response
 from flask_restx import Resource, Api, fields
 from flask import abort
@@ -10,8 +9,7 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app)
 
-# ns_movies = api.namespace('ns_movies', description='Movie APIs')
-
+# 영화 정보 데이터가 들어갈 모델을 설정
 movie_data = api.model(
     'Movie Data',
     {   
@@ -26,6 +24,7 @@ movieCount = 0
 
 @api.route('/movies')
 class Movies(Resource):
+# 등록된 모든 영화 정보 조회
     def get(self):
         return {
             'movieCount' : movieCount,
@@ -34,6 +33,7 @@ class Movies(Resource):
 
 @api.route('/movies/<int:id>')
 class MoivesResource(Resource):
+# id에 해당하는 영화에 대한 정보 조회
     def get(self, id):
         if not id in movie_info.keys():
             abort(404, description=f"Movie {id} doesn't exists")
@@ -43,6 +43,7 @@ class MoivesResource(Resource):
             'data': data
         }
     
+# id에 영화 제목, 설명, 사진url에 대한 정보를 입력
     @api.expect(movie_data)
     def post(self, id):
         if id in movie_info.keys():
@@ -55,7 +56,8 @@ class MoivesResource(Resource):
         movieCount += 1
         
         return Response(status=200)
-
+		
+# id에 해당하는 영화 정보를 변경
     @api.expect(movie_data)
     def put(self, id):
         if not id in movie_info.keys():
@@ -66,7 +68,8 @@ class MoivesResource(Resource):
         movie_info[id] = params
 
         return Response(status=201)
-
+	
+# id에 해당하는 영화 정보를 삭제
     def delete(self, id):
         if not id in movie_info.keys():
             abort(404, description=f"Movie {id} doesn't exists")
