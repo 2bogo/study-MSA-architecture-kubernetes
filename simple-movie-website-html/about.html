@@ -161,7 +161,7 @@ li a:hover {
     }
     console.log(getParam("idx"));
 
-    fetch(`http://0.0.0.0:8000/movies/${getParam("idx")}`, {method: 'get'})
+    fetch(`http://172.30.7.119:30008/movies/${getParam("idx")}`, {method: 'get'})
     .then(response => response.json())
     
     .then(function(data){
