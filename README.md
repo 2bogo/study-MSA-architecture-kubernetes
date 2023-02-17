@@ -11,3 +11,9 @@
 ### MSA 구성
 - UI의 틀을 구성하는 container
 - 영화 정보데이터가 있는 REST API
+
+### 실행
+
+```sh
+kubectl apply -f kubernetes/
+```
